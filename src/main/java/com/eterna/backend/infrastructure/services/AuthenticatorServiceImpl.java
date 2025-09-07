@@ -9,6 +9,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AuthenticatorServiceImpl implements AuthenticatorService {
     @Autowired
@@ -23,7 +25,14 @@ public class AuthenticatorServiceImpl implements AuthenticatorService {
 
         var auth = authManager.authenticate(usernamePassword);
 
+        var user = (UserEntity) auth.getPrincipal();
+
         return tokenService
-                .generateToken((UserEntity) auth.getPrincipal());
+                .generateToken(user.getUsername());
+    }
+
+    @Override
+    public TokenPair renewToken(String refreshToken) {
+        return tokenService.refreshAccessToken(refreshToken);
     }
 }

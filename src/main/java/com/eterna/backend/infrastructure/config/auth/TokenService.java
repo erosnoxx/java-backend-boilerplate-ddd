@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.util.UUID;
 
 @Service
 public class TokenService {
@@ -20,7 +21,7 @@ public class TokenService {
     @Value("${api.security.token.refreshExpirationTimeInHours}")
     private int REFRESH_TOKEN_HOURS;
 
-    public TokenPair generateToken(UserEntity user) {
+    public TokenPair generateToken(String username) {
         try {
             var algorithm = Algorithm.HMAC256(SECRET);
 
@@ -29,13 +30,13 @@ public class TokenService {
 
             var accessToken = JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(user.getUsername())
+                    .withSubject(username)
                     .withExpiresAt(accessExpiresAt)
                     .sign(algorithm);
 
             var refreshToken = JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(user.getUsername())
+                    .withSubject(username)
                     .withExpiresAt(refreshExpiresAt)
                     .sign(algorithm);
 
@@ -43,6 +44,15 @@ public class TokenService {
         } catch(JWTCreationException exception) {
             throw new RuntimeException("Error while generating token", exception);
         }
+    }
+
+    public TokenPair refreshAccessToken(String refreshToken) {
+        var username = validateToken(refreshToken);
+        if (username.isEmpty()) return null;
+
+        var pair = generateToken(username);
+
+        return new TokenPair(pair.accessToken(), refreshToken, pair.expiresAt());
     }
 
     public String validateToken(String token) {

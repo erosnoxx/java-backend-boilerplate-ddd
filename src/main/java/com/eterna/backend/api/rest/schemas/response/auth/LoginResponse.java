@@ -1,4 +1,4 @@
-package com.eterna.backend.api.rest.schemas.response;
+package com.eterna.backend.api.rest.schemas.response.auth;
 
 import com.eterna.backend.core.auth.application.commands.login.LoginOutputCommand;
 

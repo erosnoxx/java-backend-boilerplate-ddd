@@ -34,6 +34,8 @@ public class UserAuthMapper implements EntityMapper<UserAuth, UserEntity> {
     public UserEntity toEntity(UserAuth domain) {
         var entity = repository.findById(domain.getId())
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+        entity.setStatus(domain.getStatus());
         entity.setLastLogin(domain.getLastLogin());
 
         return entity;
