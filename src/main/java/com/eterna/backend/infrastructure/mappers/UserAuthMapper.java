@@ -3,6 +3,7 @@ package com.eterna.backend.infrastructure.mappers;
 import com.eterna.backend.core.auth.domain.entities.UserAuth;
 import com.eterna.backend.core.auth.domain.exception.AuthenticationFailedException;
 import com.eterna.backend.core.auth.domain.objects.Password;
+import com.eterna.backend.core.auth.domain.objects.UserName;
 import com.eterna.backend.core.shared.application.EntityMapper;
 import com.eterna.backend.core.shared.domain.objects.Email;
 import com.eterna.backend.infrastructure.persistence.entities.UserEntity;
@@ -18,6 +19,7 @@ public class UserAuthMapper implements EntityMapper<UserAuth, UserEntity> {
     @Override
     public UserAuth toDomain(UserEntity entity) {
         var domain = new UserAuth(entity.getId());
+        domain.setName(entity.getName());
         domain.setEmail(Email.of(entity.getEmail()));
         domain.setPasswordHash(Password.fromEncrypted(entity.getPasswordHash()));
         domain.setRole(entity.getRole());

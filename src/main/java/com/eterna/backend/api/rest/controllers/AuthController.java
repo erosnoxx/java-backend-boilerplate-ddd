@@ -7,6 +7,7 @@ import com.eterna.backend.api.rest.schemas.response.auth.RefreshTokenResponse;
 import com.eterna.backend.api.rest.schemas.response.common.IdResponse;
 import com.eterna.backend.core.auth.application.contracts.usecases.LoginUseCase;
 import com.eterna.backend.core.auth.application.contracts.usecases.RefreshAccessTokenUseCase;
+import com.eterna.backend.core.auth.application.contracts.usecases.TestUseCase;
 import com.eterna.backend.infrastructure.annotations.EmployerOnly;
 import com.eterna.backend.infrastructure.persistence.entities.UserEntity;
 import jakarta.validation.Valid;
@@ -24,6 +25,8 @@ public class AuthController {
     private LoginUseCase loginUseCase;
     @Autowired
     private RefreshAccessTokenUseCase refreshAccessTokenUseCase;
+    @Autowired
+    private TestUseCase testUseCase;
 
     @PostMapping("login")
     public ResponseEntity<LoginResponse> login(
@@ -36,9 +39,13 @@ public class AuthController {
     @PostMapping("refresh")
     public ResponseEntity<RefreshTokenResponse> refreshToken(
             @RequestBody @Valid RefreshTokenRequest request) {
-
         return ResponseEntity.ok(RefreshTokenResponse.of(
                 refreshAccessTokenUseCase.execute(request.toInput())
         ));
+    }
+
+    @GetMapping("/test")
+    public void test() {
+        testUseCase.execute(null);
     }
 }
