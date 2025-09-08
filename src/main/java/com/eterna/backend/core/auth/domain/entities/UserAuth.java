@@ -58,11 +58,10 @@ public class UserAuth extends Domain<UUID> {
     }
 
     public void registered() {
-        if (lastLogin == null) {
-            events.add(
-                    new UserRegisteredEvent(
-                            this.getId()));
-        }
+        events.add(
+                new UserRegisteredEvent(
+                        this.getId()));
+
     }
 
     public boolean isPasswordValid(String plainPassword) {
