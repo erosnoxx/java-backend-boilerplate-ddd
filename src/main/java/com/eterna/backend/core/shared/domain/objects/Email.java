@@ -11,7 +11,7 @@ public final class Email extends StringValueObject {
     private static final Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 
     private Email(String value) {
-        super(value);
+        super(value, 5, 100);
     }
 
     public static Email of(String email) {

@@ -2,20 +2,19 @@ package com.eterna.backend.api.rest.controllers;
 
 import com.eterna.backend.api.rest.schemas.request.auth.LoginRequest;
 import com.eterna.backend.api.rest.schemas.request.auth.RefreshTokenRequest;
+import com.eterna.backend.api.rest.schemas.request.auth.RegisterUserRequest;
 import com.eterna.backend.api.rest.schemas.response.auth.LoginResponse;
 import com.eterna.backend.api.rest.schemas.response.auth.RefreshTokenResponse;
 import com.eterna.backend.api.rest.schemas.response.common.IdResponse;
+import com.eterna.backend.core.auth.application.contracts.usecases.ActivateUserUseCase;
 import com.eterna.backend.core.auth.application.contracts.usecases.LoginUseCase;
 import com.eterna.backend.core.auth.application.contracts.usecases.RefreshAccessTokenUseCase;
-import com.eterna.backend.core.auth.application.contracts.usecases.TestUseCase;
-import com.eterna.backend.infrastructure.annotations.EmployerOnly;
-import com.eterna.backend.infrastructure.persistence.entities.UserEntity;
+import com.eterna.backend.core.auth.application.contracts.usecases.RegisterUserUseCase;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.UUID;
 
@@ -26,7 +25,9 @@ public class AuthController {
     @Autowired
     private RefreshAccessTokenUseCase refreshAccessTokenUseCase;
     @Autowired
-    private TestUseCase testUseCase;
+    private ActivateUserUseCase activateUserUseCase;
+    @Autowired
+    private RegisterUserUseCase registerUserUseCase;
 
     @PostMapping("login")
     public ResponseEntity<LoginResponse> login(
@@ -44,8 +45,20 @@ public class AuthController {
         ));
     }
 
-    @GetMapping("/test")
-    public void test() {
-        testUseCase.execute(null);
+    @PostMapping("register")
+    public ResponseEntity<IdResponse<UUID>> registerUser(@RequestBody @Valid RegisterUserRequest request) {
+        var response = registerUserUseCase.execute(request.toInput());
+        var location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/users/{id}")
+                .buildAndExpand(response)
+                .toUri();
+
+        return ResponseEntity.created(location).body(new IdResponse<>(response));
+    }
+
+    @PatchMapping("activate/{id}")
+    public void activateUser(@PathVariable UUID id) {
+        activateUserUseCase.execute(id);
     }
 }

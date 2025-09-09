@@ -1,4 +1,4 @@
-package com.eterna.backend.core.auth.application.commands.login;
+package com.eterna.backend.core.auth.application.commands.output;
 
 import com.eterna.backend.core.auth.application.commands.TokenPair;
 

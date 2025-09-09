@@ -19,7 +19,7 @@ public class UserAuthMapper implements EntityMapper<UserAuth, UserEntity> {
     @Override
     public UserAuth toDomain(UserEntity entity) {
         var domain = new UserAuth(entity.getId());
-        domain.setName(entity.getName());
+        domain.setName(UserName.of(entity.getName()));
         domain.setEmail(Email.of(entity.getEmail()));
         domain.setPasswordHash(Password.fromEncrypted(entity.getPasswordHash()));
         domain.setRole(entity.getRole());
@@ -34,11 +34,22 @@ public class UserAuthMapper implements EntityMapper<UserAuth, UserEntity> {
 
     @Override
     public UserEntity toEntity(UserAuth domain) {
-        var entity = repository.findById(domain.getId())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+        if (domain.getId() != null) {
+            var entity = repository.findById(domain.getId())
+                    .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
+            entity.setStatus(domain.getStatus());
+            entity.setLastLogin(domain.getLastLogin());
+
+            return entity;
+        }
+
+        var entity = new UserEntity();
+        entity.setName(domain.getName().getValue());
+        entity.setEmail(domain.getEmail().getValue());
+        entity.setPasswordHash(domain.getPasswordHash().getValue());
+        entity.setRole(domain.getRole());
         entity.setStatus(domain.getStatus());
-        entity.setLastLogin(domain.getLastLogin());
 
         return entity;
     }

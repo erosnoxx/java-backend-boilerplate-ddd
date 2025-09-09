@@ -1,7 +1,7 @@
 package com.eterna.backend.core.auth.application.usecases;
 
-import com.eterna.backend.core.auth.application.commands.login.LoginInputCommand;
-import com.eterna.backend.core.auth.application.commands.login.LoginOutputCommand;
+import com.eterna.backend.core.auth.application.commands.input.LoginInputCommand;
+import com.eterna.backend.core.auth.application.commands.output.LoginOutputCommand;
 import com.eterna.backend.core.auth.application.contracts.repositories.UserAuthRepository;
 import com.eterna.backend.core.auth.application.contracts.services.AuthenticatorService;
 import com.eterna.backend.core.auth.application.contracts.usecases.LoginUseCase;

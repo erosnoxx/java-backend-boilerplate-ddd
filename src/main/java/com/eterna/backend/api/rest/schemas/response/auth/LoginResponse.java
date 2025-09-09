@@ -1,6 +1,6 @@
 package com.eterna.backend.api.rest.schemas.response.auth;
 
-import com.eterna.backend.core.auth.application.commands.login.LoginOutputCommand;
+import com.eterna.backend.core.auth.application.commands.output.LoginOutputCommand;
 
 import java.time.ZonedDateTime;
 

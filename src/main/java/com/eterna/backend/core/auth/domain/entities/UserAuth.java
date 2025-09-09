@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Getter @Setter
 public class UserAuth extends Domain<UUID> {
-    private String name;
+    private UserName name;
     private Email email;
     private Password passwordHash;
     private Role role;
@@ -32,6 +32,7 @@ public class UserAuth extends Domain<UUID> {
     }
 
     public UserAuth(UserName name, Email email, Password passwordHash, Role role) {
+        this.name = name;
         this.email = email;
         this.passwordHash = passwordHash;
         this.role = role;

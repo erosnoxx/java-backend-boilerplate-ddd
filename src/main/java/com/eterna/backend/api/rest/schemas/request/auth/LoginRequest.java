@@ -1,6 +1,6 @@
 package com.eterna.backend.api.rest.schemas.request.auth;
 
-import com.eterna.backend.core.auth.application.commands.login.LoginInputCommand;
+import com.eterna.backend.core.auth.application.commands.input.LoginInputCommand;
 
 public record LoginRequest(String email, String password) {
     public LoginInputCommand toInput() {

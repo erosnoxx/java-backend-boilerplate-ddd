@@ -1,6 +1,7 @@
 package com.eterna.backend.infrastructure.seeders;
 
 import com.eterna.backend.core.auth.domain.enums.Role;
+import com.eterna.backend.core.auth.domain.objects.Password;
 import com.eterna.backend.core.shared.domain.enums.EntityStatus;
 import com.eterna.backend.infrastructure.persistence.entities.UserEntity;
 import com.eterna.backend.infrastructure.persistence.repositories.UserJpaRepository;
@@ -33,6 +34,7 @@ public class UserSeeder extends Seeder<UserEntity, UUID, UserJpaRepository> {
         AdminConfig admin = getAsObject("admin", AdminConfig.class);
 
         createAdmin(admin);
+        createCommon();
     }
 
     private void createAdmin(AdminConfig adminConfig) {
@@ -46,5 +48,18 @@ public class UserSeeder extends Seeder<UserEntity, UUID, UserJpaRepository> {
         repository.save(admin);
 
         log.info("⚡ Admin user created: {} / {}", adminConfig.getName(), adminConfig.getEmail());
+    }
+
+    private void createCommon() {
+        var common = new UserEntity();
+        common.setName("Ricardo Ávila");
+        common.setEmail("erosgvieira@gmail.com");
+        common.setPasswordHash(Password.fromPlainText("Prachedes1!").getValue());
+        common.setRole(Role.EMPLOYER);
+        common.setStatus(EntityStatus.INACTIVE);
+
+        repository.save(common);
+
+        log.info("saved common user for tests and stuff like dat");
     }
 }

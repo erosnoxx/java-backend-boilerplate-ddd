@@ -1,7 +1,7 @@
 package com.eterna.backend.core.auth.application.usecases;
 
-import com.eterna.backend.core.auth.application.commands.refreshToken.RefreshTokenInputCommand;
-import com.eterna.backend.core.auth.application.commands.refreshToken.RefreshTokenOutputCommand;
+import com.eterna.backend.core.auth.application.commands.input.RefreshTokenInputCommand;
+import com.eterna.backend.core.auth.application.commands.output.RefreshTokenOutputCommand;
 import com.eterna.backend.core.auth.application.contracts.services.AuthenticatorService;
 import com.eterna.backend.core.auth.application.contracts.usecases.RefreshAccessTokenUseCase;
 import org.springframework.beans.factory.annotation.Autowired;

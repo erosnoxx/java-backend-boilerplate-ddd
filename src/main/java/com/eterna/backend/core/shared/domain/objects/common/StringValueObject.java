@@ -4,8 +4,12 @@ import com.eterna.backend.core.shared.domain.exceptions.DomainException;
 
 public abstract class StringValueObject extends ValueObject<String> {
 
-    protected StringValueObject(String value) {
+    protected StringValueObject(String value, int minLength, int maxLength) {
         super(value);
+        if (value.length() < minLength || value.length() > maxLength) {
+            throw new DomainException("must be between " + minLength + " and " + maxLength + " characters"
+            );
+        }
     }
 
     @Override
@@ -18,6 +22,8 @@ public abstract class StringValueObject extends ValueObject<String> {
         if (trimmed.isEmpty()) {
             throw new DomainException(getClass().getSimpleName() + " cannot be empty");
         }
+
+        int length = value.length();
 
         return customValidate(trimmed);
     }

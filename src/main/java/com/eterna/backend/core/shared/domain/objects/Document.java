@@ -6,7 +6,7 @@ import com.eterna.backend.core.shared.domain.objects.common.StringValueObject;
 public final class Document extends StringValueObject {
 
     private Document(String value) {
-        super(value);
+        super(value, 11, 14);
     }
 
     public static Document of(String document) {

@@ -31,7 +31,7 @@ public class SendActivationEmailUseCaseImpl implements SendActivationEmailUseCas
         var user = repository.findById(command)
                 .orElseThrow(() -> new NotFoundException("user not found"));
 
-        var message = buildMessage(user.getName(), user.getId().toString());
+        var message = buildMessage(user.getName().getValue(), user.getId().toString());
 
         mailService.sendEmail(
                 user.getEmail().getValue(),
@@ -40,10 +40,10 @@ public class SendActivationEmailUseCaseImpl implements SendActivationEmailUseCas
         return null;
     }
 
-    private String buildMessage(String userName, String activationLink) {
+    private String buildMessage(String userName, String userId) {
         Map<String, String> values = new HashMap<>();
         values.put("NAME", userName);
-        values.put("ACTIVATION_LINK", activationLink);
+        values.put("USER_ID", userId);
 
         var template = loadHtmlEmail();
         return HtmlTemplateUtils.replacePlaceholders(template, values);
