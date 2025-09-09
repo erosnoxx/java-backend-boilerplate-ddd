@@ -5,6 +5,7 @@ import com.eterna.backend.core.shared.domain.objects.common.ValueObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public final class Password extends ValueObject<String> {
@@ -97,5 +98,10 @@ public final class Password extends ValueObject<String> {
 
         Password password = (Password) obj;
         return isEncrypted && password.isEncrypted && Objects.equals(value, password.value);
+    }
+
+    public static Password generateRandomPassword() {
+        var raw = UUID.randomUUID().toString().substring(0, 12);
+        return Password.fromPlainText(raw);
     }
 }

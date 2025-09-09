@@ -1,7 +1,7 @@
 package com.eterna.backend.infrastructure.messaging.consumers;
 
 import com.eterna.backend.core.auth.application.contracts.usecases.SendActivationEmailUseCase;
-import com.eterna.backend.core.auth.domain.events.UserRegisteredEvent;
+import com.eterna.backend.core.auth.domain.events.UserSignedUpEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class ActivationEmailConsumer {
     @RabbitListener(queues = "${app.rabbit.queues.activation}")
     public void handleActivationEmail(String message) {
         try {
-            var event = objectMapper.readValue(message, UserRegisteredEvent.class);
+            var event = objectMapper.readValue(message, UserSignedUpEvent.class);
             sendActivationEmailUseCase.execute(event.userId());
         } catch (Exception e) {
             throw new RuntimeException("Erro ao processar mensagem de ativação", e);

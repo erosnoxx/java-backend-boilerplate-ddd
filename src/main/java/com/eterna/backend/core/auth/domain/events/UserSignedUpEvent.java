@@ -5,12 +5,12 @@ import com.eterna.backend.core.shared.domain.events.DomainEvent;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record UserRegisteredEvent(
+public record UserSignedUpEvent(
         UUID userId,
         LocalDateTime occurredOn)
         implements DomainEvent {
 
-    public UserRegisteredEvent(UUID userId) {
+    public UserSignedUpEvent(UUID userId) {
         this(userId, LocalDateTime.now());
     }
 

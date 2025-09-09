@@ -2,6 +2,7 @@ package com.eterna.backend.infrastructure.persistence.entities;
 
 import com.eterna.backend.core.auth.domain.enums.Role;
 import com.eterna.backend.core.shared.domain.enums.EntityStatus;
+import com.eterna.backend.core.shared.domain.events.DomainEvent;
 import com.eterna.backend.infrastructure.persistence.entities.common.BaseEntity;
 import com.eterna.backend.infrastructure.utils.RoleToAuthoritiesUtils;
 import jakarta.persistence.*;
@@ -12,7 +13,9 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity @Table(name = "users")
