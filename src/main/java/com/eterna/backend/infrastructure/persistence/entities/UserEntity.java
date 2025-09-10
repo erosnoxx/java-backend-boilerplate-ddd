@@ -33,6 +33,8 @@ public class UserEntity extends BaseEntity<UUID> implements UserDetails {
     private EntityStatus status;
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
+    @Column(name = "first_password_changed", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean firstPasswordChanged;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

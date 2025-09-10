@@ -34,7 +34,6 @@ public class UserSeeder extends Seeder<UserEntity, UUID, UserJpaRepository> {
         AdminConfig admin = getAsObject("admin", AdminConfig.class);
 
         createAdmin(admin);
-        createCommon();
     }
 
     private void createAdmin(AdminConfig adminConfig) {
@@ -44,22 +43,10 @@ public class UserSeeder extends Seeder<UserEntity, UUID, UserJpaRepository> {
         admin.setPasswordHash(new BCryptPasswordEncoder().encode(adminConfig.getPassword()));
         admin.setRole(Role.ADMIN);
         admin.setStatus(EntityStatus.ACTIVE);
+        admin.setFirstPasswordChanged(true);
 
         repository.save(admin);
 
         log.info("⚡ Admin user created: {} / {}", adminConfig.getName(), adminConfig.getEmail());
-    }
-
-    private void createCommon() {
-        var common = new UserEntity();
-        common.setName("Ricardo Ávila");
-        common.setEmail("erosgvieira@gmail.com");
-        common.setPasswordHash(Password.fromPlainText("Prachedes1!").getValue());
-        common.setRole(Role.EMPLOYER);
-        common.setStatus(EntityStatus.INACTIVE);
-
-        repository.save(common);
-
-        log.info("saved common user for tests and stuff like dat");
     }
 }

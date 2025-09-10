@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class RepositoryImpl<D, ID, E, R extends JpaRepository<E, ID>>
-        implements Repository<D, ID> {
+public abstract class RepositoryImpl<D, ID, E, R extends JpaRepository<E, ID>, C extends Criteria>
+        implements Repository<D, ID, C> {
 
     protected final R repository;
     protected final EntityManager em;
@@ -84,7 +84,7 @@ public abstract class RepositoryImpl<D, ID, E, R extends JpaRepository<E, ID>>
     }
 
     @Override
-    public <C extends Criteria> long count(C criteria) {
+    public long count(C criteria) {
         var cb = em.getCriteriaBuilder();
         var countQuery = cb.createQuery(Long.class);
         var root = countQuery.from(entityClass); // entityClass precisa ser passado no construtor
@@ -110,7 +110,7 @@ public abstract class RepositoryImpl<D, ID, E, R extends JpaRepository<E, ID>>
     }
 
     @Override
-    public <C extends Criteria> Page<D> findAll(C criteria, Pageable pageable) {
+    public Page<D> findAll(C criteria, Pageable pageable) {
         var cb = em.getCriteriaBuilder();
         var query = cb.createQuery(entityClass);
         var root = query.from(entityClass);

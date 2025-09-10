@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @Repository
 public class UserAuthRepositoryImpl
-        extends RepositoryImpl<UserAuth, UUID, UserEntity, UserJpaRepository>
+        extends RepositoryImpl<UserAuth, UUID, UserEntity, UserJpaRepository, UserAuthCriteria>
         implements UserAuthRepository {
 
     public UserAuthRepositoryImpl(

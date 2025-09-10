@@ -1,16 +1,10 @@
 package com.eterna.backend.api.rest.controllers;
 
-import com.eterna.backend.api.rest.schemas.request.auth.ActivateUserRequest;
-import com.eterna.backend.api.rest.schemas.request.auth.LoginRequest;
-import com.eterna.backend.api.rest.schemas.request.auth.RefreshTokenRequest;
-import com.eterna.backend.api.rest.schemas.request.auth.RegisterUserRequest;
+import com.eterna.backend.api.rest.schemas.request.auth.*;
 import com.eterna.backend.api.rest.schemas.response.auth.LoginResponse;
 import com.eterna.backend.api.rest.schemas.response.auth.RefreshTokenResponse;
 import com.eterna.backend.api.rest.schemas.response.common.IdResponse;
-import com.eterna.backend.core.auth.application.contracts.usecases.ActivateUserUseCase;
-import com.eterna.backend.core.auth.application.contracts.usecases.LoginUseCase;
-import com.eterna.backend.core.auth.application.contracts.usecases.RefreshAccessTokenUseCase;
-import com.eterna.backend.core.auth.application.contracts.usecases.RegisterUserUseCase;
+import com.eterna.backend.core.auth.application.contracts.usecases.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +23,8 @@ public class AuthController {
     private ActivateUserUseCase activateUserUseCase;
     @Autowired
     private RegisterUserUseCase registerUserUseCase;
+    @Autowired
+    private ChangePasswordUseCase changePasswordUseCase;
 
     @PostMapping("login")
     public ResponseEntity<LoginResponse> login(
@@ -61,5 +57,10 @@ public class AuthController {
     @PatchMapping("activate/{id}")
     public void activateUser(@PathVariable UUID id, @RequestBody ActivateUserRequest request) {
         activateUserUseCase.execute(request.toInput(id));
+    }
+
+    @PatchMapping("change-password/{id}")
+    public void changePassword(@PathVariable UUID id, @RequestBody ChangePasswordRequest request) {
+        changePasswordUseCase.execute(request.toInput(id));
     }
 }

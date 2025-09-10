@@ -26,6 +26,7 @@ public class UserAuth extends Domain<UUID> {
     private Role role;
     private EntityStatus status;
     private LocalDateTime lastLogin;
+    private boolean firstPasswordChanged;
 
     private List<DomainEvent> events = new ArrayList<>();
 
@@ -96,6 +97,21 @@ public class UserAuth extends Domain<UUID> {
         var pulled = new ArrayList<>(events);
         events.clear();
         return pulled;
+    }
+
+    public void changePassword(String oldPassword, String newPassword) {
+        if (!passwordHash.matches(oldPassword)) {
+            throw new IllegalArgumentException("current password does not match");
+        }
+        this.passwordHash = Password.fromPlainText(newPassword);
+        this.firstPasswordChanged = true;
+    }
+
+    public void assignRole(Role newRole, UserUniquenessChecker checker) {
+        if (newRole == Role.ADMIN && checker.adminExists()) {
+            throw new AlreadyExistsException("admin user already exists");
+        }
+        this.role = newRole;
     }
 
     @Override

@@ -25,6 +25,7 @@ public class UserAuthMapper implements EntityMapper<UserAuth, UserEntity> {
         domain.setRole(entity.getRole());
         domain.setStatus(entity.getStatus());
         domain.setLastLogin(entity.getLastLogin());
+        domain.setFirstPasswordChanged(entity.isFirstPasswordChanged());
 
         domain.setCreatedAt(entity.getCreatedAt());
         domain.setUpdatedAt(entity.getUpdatedAt());
@@ -50,6 +51,7 @@ public class UserAuthMapper implements EntityMapper<UserAuth, UserEntity> {
         entity.setPasswordHash(domain.getPasswordHash().getValue());
         entity.setRole(domain.getRole());
         entity.setStatus(domain.getStatus());
+        entity.setFirstPasswordChanged(domain.isFirstPasswordChanged());
 
         return entity;
     }

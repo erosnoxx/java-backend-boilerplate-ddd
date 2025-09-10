@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
-public interface Repository<D, ID> {
+public interface Repository<D, ID, C extends Criteria> {
     D save(D entity);
     List<D> saveBatch(Iterable<D> entities);
 
@@ -18,9 +18,9 @@ public interface Repository<D, ID> {
     boolean existsById(ID id);
 
     long count();
-    <C extends Criteria> long count(C criteria);
+    long count(C criteria);
 
     Page<D> findAll(Pageable pageable);
     List<D> findAll();
-    <C extends Criteria> Page<D> findAll(C criteria, Pageable pageable);
+    Page<D> findAll(C criteria, Pageable pageable);
 }

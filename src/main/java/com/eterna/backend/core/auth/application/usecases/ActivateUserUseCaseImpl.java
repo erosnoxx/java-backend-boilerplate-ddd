@@ -3,6 +3,7 @@ package com.eterna.backend.core.auth.application.usecases;
 import com.eterna.backend.core.auth.application.commands.input.ActivateUserInputCommand;
 import com.eterna.backend.core.auth.application.contracts.repositories.UserAuthRepository;
 import com.eterna.backend.core.auth.application.contracts.usecases.ActivateUserUseCase;
+import com.eterna.backend.core.auth.application.criteria.UserAuthCriteria;
 import com.eterna.backend.core.auth.domain.exception.AuthenticationFailedException;
 import com.eterna.backend.core.auth.domain.objects.OtpCode;
 import com.eterna.backend.core.shared.application.services.CacheService;

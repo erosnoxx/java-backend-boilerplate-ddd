@@ -12,6 +12,7 @@ CREATE TABLE users (
     status VARCHAR(20) NOT NULL,
 
     last_login TIMESTAMP,
+    first_password_changed BOOLEAN NOT NULL DEFAULT FALSE,
 
     created_at TIMESTAMP NOT NULL DEFAULT now(),
     updated_at TIMESTAMP,
