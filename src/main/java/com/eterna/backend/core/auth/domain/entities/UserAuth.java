@@ -4,7 +4,7 @@ import com.eterna.backend.core.auth.domain.enums.Role;
 import com.eterna.backend.core.auth.domain.events.UserSignedUpEvent;
 import com.eterna.backend.core.auth.domain.objects.Password;
 import com.eterna.backend.core.auth.domain.objects.UserName;
-import com.eterna.backend.core.auth.domain.services.UserUniquenessChecker;
+import com.eterna.backend.core.auth.domain.checkers.UserUniquenessChecker;
 import com.eterna.backend.core.shared.domain.entities.Domain;
 import com.eterna.backend.core.shared.domain.enums.EntityStatus;
 import com.eterna.backend.core.shared.domain.events.DomainEvent;
@@ -50,9 +50,7 @@ public class UserAuth extends Domain<UUID> {
         if (!checker.isUnique(email.getValue()))
             throw new AlreadyExistsException("user already registered");
 
-        var user = new UserAuth(name, email, Password.generateRandomPassword(), role);
-        user.signUp();
-        return user;
+        return new UserAuth(name, email, Password.generateRandomPassword(), role);
     }
 
     public boolean canAccess() {

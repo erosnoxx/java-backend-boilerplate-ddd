@@ -5,7 +5,7 @@ import com.eterna.backend.core.auth.application.contracts.repositories.UserAuthR
 import com.eterna.backend.core.auth.application.contracts.usecases.RegisterUserUseCase;
 import com.eterna.backend.core.auth.domain.entities.UserAuth;
 import com.eterna.backend.core.auth.domain.objects.UserName;
-import com.eterna.backend.core.auth.domain.services.UserUniquenessChecker;
+import com.eterna.backend.core.auth.domain.checkers.UserUniquenessChecker;
 import com.eterna.backend.core.shared.application.events.EventPublisher;
 import com.eterna.backend.core.shared.domain.objects.Email;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,10 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
                 Email.of(command.email()),
                 command.role(),
                 checker);
-        var events = user.pullEvents();
         var savedUser = repository.save(user);
+
+        savedUser.signUp();
+        var events = savedUser.pullEvents();
         events.forEach(publisher::publish);
 
         return savedUser.getId();

@@ -1,4 +1,4 @@
-package com.eterna.backend.infrastructure.annotations;
+package com.eterna.backend.infrastructure.annotations.auth;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 

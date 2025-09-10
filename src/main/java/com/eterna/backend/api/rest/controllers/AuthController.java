@@ -1,5 +1,6 @@
 package com.eterna.backend.api.rest.controllers;
 
+import com.eterna.backend.api.rest.schemas.request.auth.ActivateUserRequest;
 import com.eterna.backend.api.rest.schemas.request.auth.LoginRequest;
 import com.eterna.backend.api.rest.schemas.request.auth.RefreshTokenRequest;
 import com.eterna.backend.api.rest.schemas.request.auth.RegisterUserRequest;
@@ -58,7 +59,7 @@ public class AuthController {
     }
 
     @PatchMapping("activate/{id}")
-    public void activateUser(@PathVariable UUID id) {
-        activateUserUseCase.execute(id);
+    public void activateUser(@PathVariable UUID id, @RequestBody ActivateUserRequest request) {
+        activateUserUseCase.execute(request.toInput(id));
     }
 }

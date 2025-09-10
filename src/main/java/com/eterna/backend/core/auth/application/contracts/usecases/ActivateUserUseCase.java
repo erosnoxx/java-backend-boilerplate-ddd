@@ -1,8 +1,9 @@
 package com.eterna.backend.core.auth.application.contracts.usecases;
 
+import com.eterna.backend.core.auth.application.commands.input.ActivateUserInputCommand;
 import com.eterna.backend.core.shared.application.UseCase;
 
 import java.util.UUID;
 
-public interface ActivateUserUseCase extends UseCase<UUID, Void> {
+public interface ActivateUserUseCase extends UseCase<ActivateUserInputCommand, Void> {
 }

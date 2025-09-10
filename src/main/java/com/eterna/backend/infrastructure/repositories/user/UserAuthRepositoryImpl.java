@@ -3,6 +3,7 @@ package com.eterna.backend.infrastructure.repositories.user;
 import com.eterna.backend.core.auth.application.contracts.repositories.UserAuthRepository;
 import com.eterna.backend.core.auth.application.criteria.UserAuthCriteria;
 import com.eterna.backend.core.auth.domain.entities.UserAuth;
+import com.eterna.backend.core.auth.domain.enums.Role;
 import com.eterna.backend.core.shared.application.Criteria;
 import com.eterna.backend.infrastructure.mappers.UserAuthMapper;
 import com.eterna.backend.infrastructure.persistence.entities.UserEntity;
@@ -37,5 +38,15 @@ public class UserAuthRepositoryImpl
     public Optional<UserAuth> findByEmail(String email) {
         return repository.findByEmail(email)
                 .map(mapper::toDomain);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return repository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean existsByRole(Role role) {
+        return repository.existsByRole(role);
     }
 }
